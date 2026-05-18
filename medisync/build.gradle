@@ -1,0 +1,73 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.5.11'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'jacoco'
+}
+group = 'com.medisync'
+version = '0.0.1-SNAPSHOT'
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+repositories {
+    mavenCentral()
+}
+dependencies {
+    runtimeOnly 'com.h2database:h2'
+    testImplementation 'com.h2database:h2'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'org.postgresql:postgresql'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-testcontainers'
+    testImplementation 'org.testcontainers:testcontainers:1.19.8'
+    testImplementation 'org.testcontainers:junit-jupiter:1.19.8'
+    testImplementation 'org.testcontainers:postgresql:1.19.8'
+    // JWT (JJWT)
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.12.6'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+    // Test de seguridad
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    // Documentacion
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.17'
+}
+test {
+    useJUnitPlatform()
+    jvmArgs '-XX:+EnableDynamicAgentLoading'
+    finalizedBy jacocoTestReport
+}
+jacoco {
+    toolVersion = "0.8.13"
+}
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        html.required = true
+    }
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    '**/MedisyncApplication.class',
+                    '**/infrastructure/config/**',
+                    '**/adapters/in/web/dto/**',
+                    '**/application/dto/**',
+                    '**/adapters/out/persistence/entities/**',
+                    '**/adapters/in/web/mappers/**',
+                    '**/adapters/out/persistence/mappers/**',
+                    '**/domain/exceptions/*NotFoundException.class',
+                    '**/adapters/in/web/exceptions/*NotFoundException.class',
+                    '**/domain/enums/**',
+                    '**/shared/**'
+            ])
+        }))
+    }
+}
