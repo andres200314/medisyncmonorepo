@@ -8,7 +8,7 @@ Plataforma para conectar pacientes con farmacias en Medellín y consultar dispon
 medisyncmonorepo/
 ├── medisync/           # Backend — Spring Boot 3.5, Java 25, PostgreSQL
 ├── medisync-front/     # Frontend — React 19, Vite, Tailwind CSS
-├── docker-compose.yml  # Stack completo (recomendado para empezar)
+├── docker-compose.yml  # Stack completo
 └── README.md
 ```
 
@@ -215,8 +215,5 @@ El backend está configurado con toolchain Java 25. Si `bootRun` falla por versi
 | Frontend  | React 19, Vite 8, Tailwind CSS 4                   |
 | Infra     | Docker Compose, nginx (frontend en producción)     |
 
----
 
-## Licencia
 
-Proyecto académico / interno — consulta con el equipo antes de redistribuir.
